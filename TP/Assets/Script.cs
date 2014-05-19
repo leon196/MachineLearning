@@ -9,6 +9,8 @@ public class Script : MonoBehaviour {
 	private float lineLength = 1.0f;
 	private Vector3[] linePositions;
 
+	private Feuille[] feuilles;
+
 	// Use this for initialization
 	void Start () {
 		racine = GetComponentInChildren<LineRenderer>() as LineRenderer;
@@ -19,12 +21,23 @@ public class Script : MonoBehaviour {
 		racine.SetVertexCount(2);
 		racine.SetPosition(0, linePositions[0]);
 		racine.SetPosition(1, linePositions[1]);
+
+		feuilles = GetComponentsInChildren<Feuille>() as Feuille[];
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		float feuilleIntensity = 0.0f;
+
+		foreach (Feuille feuille in feuilles) {
+			feuilleIntensity += feuille.Intensity;
+		}
+
+		float factorTranslation = Mathf.Max(0, feuilleIntensity);
+
 		Vector3 currentPosition = linePositions[lineCount];
-		Vector3 nextPosition = currentPosition + new Vector3(Mathf.Abs(Mathf.Cos(Time.time)), 0, Mathf.Sin(Time.time * 0.4f)) * Time.deltaTime;
+		Vector3 nextPosition = currentPosition + new Vector3(Mathf.Abs(Mathf.Cos(Time.time)), 0, Mathf.Sin(Time.time * 0.4f)) * Time.deltaTime * factorTranslation;
 		linePositions[lineCount] = nextPosition;
 
 		racine.SetPosition(lineCount, nextPosition);
@@ -35,5 +48,7 @@ public class Script : MonoBehaviour {
 			racine.SetVertexCount(lineCount+1);
 			racine.SetPosition(lineCount, linePositions[lineCount]);
 		}
+
+
 	}
 }
