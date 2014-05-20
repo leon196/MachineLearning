@@ -1,10 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SharpNeat;
-using SharpNeat.Phenomes;
-using SharpNeat.Core;
-using SharpNeat.Decoders.Neat;
-using SharpNeat.Genomes.Neat;
 
 public class Game : MonoBehaviour {
 
