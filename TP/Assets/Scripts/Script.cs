@@ -37,7 +37,7 @@ public class Script : MonoBehaviour {
 		float factorTranslation = Mathf.Max(0, feuilleIntensity);
 
 		Vector3 currentPosition = linePositions[lineCount];
-		Vector3 nextPosition = currentPosition + new Vector3(Mathf.Abs(Mathf.Cos(Time.time)), 0, Mathf.Sin(Time.time * 0.4f)) * Time.deltaTime * factorTranslation;
+		Vector3 nextPosition = currentPosition + new Vector3(Mathf.Abs(Mathf.Cos(Time.time)), Mathf.Sin(Time.time * 0.4f), 0) * Time.deltaTime * factorTranslation;
 		linePositions[lineCount] = nextPosition;
 
 		racine.SetPosition(lineCount, nextPosition);
