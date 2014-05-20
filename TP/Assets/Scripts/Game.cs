@@ -6,7 +6,7 @@ using SharpNeat.Core;
 using SharpNeat.Decoders.Neat;
 using SharpNeat.Genomes.Neat;
 
-public class Script : MonoBehaviour {
+public class Game : MonoBehaviour {
 
 	private LineRenderer racine;
 	private float timeStart = 0.0f;

@@ -47,18 +47,18 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Feuille.cs" />
+     <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\GridGeneration.cs" />
-     <Compile Include="Assets\Scripts\Script.cs" />
      <None Include="Assets\log4net.xml" />
      <None Include="Assets\SharpNeatLib.xml" />
- <Reference Include="SharpNeatLib">
- <HintPath>Assets\SharpNeatLib.dll</HintPath>
+ <Reference Include="log4net">
+ <HintPath>Assets\log4net.dll</HintPath>
  </Reference>
  <Reference Include="SharpNeatDomains">
  <HintPath>Assets\SharpNeatDomains.dll</HintPath>
  </Reference>
- <Reference Include="log4net">
- <HintPath>Assets\log4net.dll</HintPath>
+ <Reference Include="SharpNeatLib">
+ <HintPath>Assets\SharpNeatLib.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
