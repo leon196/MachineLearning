@@ -32,16 +32,26 @@ public class Plant : MonoBehaviour
 		flowers = new List<Flower>();
 		roots = new List<Root>();
 
-		int[] rootCount = {3, 5, 1};
-		GeneratePlant(3, rootCount);
+		int flowerCount = Random.Range(1, 4);
+		int[] rootCount = new int[flowerCount];
+		for (int f = 0; f < flowerCount; f++) {
+			rootCount[f] = Random.Range(1, 5);
+		}
+		GeneratePlant(flowerCount, rootCount);
 	}
 
 	void GeneratePlant(int flowerCount, int[] rootCount)
 	{
+		ready = false;
+
+		Vector3 plantPosition = new Vector3();
 		for (int d = 0; d < flowerCount; d++) {
+
+
+			// Generate Flower
 			GameObject flowerObject = Instantiate(flowerPrefab) as GameObject;
 			flowerObject.transform.parent = transform;
-			float range = 10.0f;
+			float range = 4.0f;
 			flowerObject.transform.localPosition = new Vector3(Random.Range(-range, range), Random.Range(-range, range), 0);
 			flowers.Add(flowerObject.GetComponent<Flower>());
 
@@ -53,15 +63,27 @@ public class Plant : MonoBehaviour
 				GameObject rootObject = Instantiate(rootPrefab) as GameObject;
 				rootObject.transform.parent = transform;
 				rootObject.transform.localPosition = flowerObject.transform.localPosition;
-				roots.Add(rootObject.GetComponent<Root>());
+				Root rootComponent = rootObject.GetComponent<Root>();
+				rootComponent.Setup();
+				roots.Add(rootComponent);
 
 				// add leaves inputs (one per root for now)
 				//inputs += 0;
 				// add roots outputs 
 				outputs += outputPerRoot;
 			}
-		}
 
+			// Generate Link between flowers
+			if (d > 0) {
+				GameObject rootObject = Instantiate(rootPrefab) as GameObject;
+				rootObject.transform.parent = transform;
+				rootObject.transform.localPosition = plantPosition;
+				rootObject.GetComponent<LineRenderer>().SetPosition(0, plantPosition);
+				rootObject.GetComponent<LineRenderer>().SetPosition(1, flowerObject.transform.position);
+			} else {
+				plantPosition = flowerObject.transform.position;
+			}	
+		}
 
 		brain = new NeuralNet();
 		brain.CreateNetwork(inputs, outputs, layers, neurons);

@@ -34,8 +34,10 @@ public class Root : MonoBehaviour
 		plant.AddBrainInput();
 	}
 
-	void Start() {
+	public void Setup()
+	{
 		lineRenderer = GetComponent<LineRenderer>() as LineRenderer;
+
 		linePositions = new Vector3[LINE_COUNT];
 		linePositions[0] = transform.position;
 		linePositions[1] = transform.position;
@@ -49,8 +51,8 @@ public class Root : MonoBehaviour
 		plant = transform.parent.GetComponent<Plant>();
 	}
 
-	public void Grow(double factorTranslation, double factorRotation, double factorLeaf) {
-		
+	public void Grow(double factorTranslation, double factorRotation, double factorLeaf)
+	{
 		// Rotation & Translation
 		lineAngle = (float)factorRotation * Mathf.PI * 10.0f;
 		Vector3 rotation = new Vector3(Mathf.Cos(lineAngle), Mathf.Sin(lineAngle), 0);
