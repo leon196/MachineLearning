@@ -1,62 +1,78 @@
 ﻿using UnityEngine;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Root : MonoBehaviour
 {
-	private NeuralNet brain;
-	private Leaf[] leaves;
+	private Plant plant;
 
-	private float lineAngle = 0.0f;
+	public GameObject leafPrefab;
+	private List<Leaf> leaves = new List<Leaf>();
+	public List<Leaf> Leaves { get { return leaves;} }
+	private float leafGrowth = 0.0f;
+
 	private LineRenderer lineRenderer;
 	private int lineCount = 1;
-	private float lineLength = 1.0f;
+	private float lineAngle = 0.0f;
+	private float lineLength = 0.1f;
+	private Vector3 lastPosition;
 	private Vector3[] linePositions;
+	private const int LINE_COUNT = 1000;
+
+	public void CreateLeaf()
+	{
+		// Spawn GameObject
+		GameObject leaf = Instantiate(leafPrefab) as GameObject;
+		leaf.transform.parent = transform;
+		leaf.transform.position = lastPosition;
+
+		// Update List
+		leaves = (GetComponentsInChildren<Leaf>() as Leaf[]).ToList<Leaf>();
+
+		// Update Brain
+		plant.AddBrainInput();
+	}
 
 	void Start() {
-		brain = new NeuralNet();
-		brain.CreateNetwork();
-
-		leaves = new Leaf[1];
-		leaves[0] = GetComponentInChildren<Leaf>() as Leaf;
-
 		lineRenderer = GetComponent<LineRenderer>() as LineRenderer;
-		linePositions = new Vector3[100];
-		linePositions[0] = new Vector3();
-		linePositions[1] = new Vector3();
+		linePositions = new Vector3[LINE_COUNT];
+		linePositions[0] = transform.position;
+		linePositions[1] = transform.position;
 
 		lineRenderer.SetVertexCount(2);
 		lineRenderer.SetPosition(0, linePositions[0]);
 		lineRenderer.SetPosition(1, linePositions[1]);
+
+		lastPosition = linePositions[lineCount];
+
+		plant = transform.parent.GetComponent<Plant>();
 	}
 
-	void Update() {
-		List<double> inputs = new List<double>();
-		foreach (Leaf leaf in leaves) {
-			inputs.Add(leaf.Intensity);
-		}
-
-		List<double> ouputs = brain.Update(inputs);
-
-		float factorTranslation = (float)ouputs[0];
-		float factorRotation = (float)ouputs[1];
-
-		Debug.Log(factorRotation);
-		lineAngle += factorRotation * 40.0f;
-		Vector3 rotation = new Vector3(Mathf.Abs(Mathf.Cos(lineAngle)), Mathf.Sin(lineAngle), 0);
-
-		Vector3 currentPosition = linePositions[lineCount];
-		Vector3 nextPosition = currentPosition + factorTranslation * rotation * Time.deltaTime;
+	public void Grow(double factorTranslation, double factorRotation, double factorLeaf) {
+		
+		// Rotation & Translation
+		lineAngle = (float)factorRotation * Mathf.PI * 10.0f;
+		Vector3 rotation = new Vector3(Mathf.Cos(lineAngle), Mathf.Sin(lineAngle), 0);
+		Vector3 nextPosition = lastPosition + (float)factorTranslation * rotation * Time.deltaTime;
 		linePositions[lineCount] = nextPosition;
+		lastPosition = nextPosition;
 
+		// Update LineRenderer
 		lineRenderer.SetPosition(lineCount, nextPosition);
-
-		if (Vector3.Distance(linePositions[lineCount-1], nextPosition) >= lineLength) {
+		if (lineCount < LINE_COUNT-1 && Vector3.Distance(linePositions[lineCount-1], nextPosition) >= lineLength) {
 			lineCount++;
 			linePositions[lineCount] = linePositions[lineCount-1];
 			lineRenderer.SetVertexCount(lineCount+1);
 			lineRenderer.SetPosition(lineCount, linePositions[lineCount]);
+			lastPosition = linePositions[lineCount];
 		}
 
+		// Leaf Growth
+		leafGrowth += (float)factorLeaf;
+		if (leafGrowth >= 100.0f) {
+			CreateLeaf();
+			leafGrowth -= 100.0f;
+		}
 	}
 }

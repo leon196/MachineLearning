@@ -5,15 +5,19 @@ using System.Collections.Generic;
 
 public class NeuralNet {
 
-	private int inputCount = 1;
+	private int inputCount = 3;
 	private int outputCount = 2;
 	private int layerHiddenCount = 1;
 	private int neuronCountPerLayer = 6;
-	private List<NeuronLayer> layers; // <NeuronLayer> 
+	private List<NeuronLayer> layers;
 	private double bias = -1.0;
 	private double activationResponse = 1.0;
 
-	public void CreateNetwork() {
+	public void CreateNetwork(int inputCount_, int outputCount_, int layerHiddenCount_, int neuronCountPerLayer_) {
+		inputCount = inputCount_;
+		outputCount = outputCount_;
+		layerHiddenCount = layerHiddenCount_;
+		neuronCountPerLayer = neuronCountPerLayer_;
 		layers = new List<NeuronLayer>();
 		//create the layers of the network
 		if (layerHiddenCount > 0) {
@@ -32,10 +36,9 @@ public class NeuralNet {
 			//create output layer
 			layers.Add(new NeuronLayer(outputCount, inputCount));
 		}
-		Debug.Log(layers.Count);
 	}
 
-	public List<double> /*<double>*/ GetWeights() {
+	public List<double> GetWeights() {
 		//this will hold the weights
 		List<double> weights = new List<double>();
 		
