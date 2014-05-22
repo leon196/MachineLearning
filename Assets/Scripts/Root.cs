@@ -1,27 +1,27 @@
 ﻿using UnityEngine;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Root : MonoBehaviour
 {
-	private NeuralNet brain;
-	private Leaf[] leaves;
+	private List<Leaf> leaves;
+	public List<Leaf> Leaves { get { return leaves;} }
 
-	private float lineAngle = 0.0f;
 	private LineRenderer lineRenderer;
 	private int lineCount = 1;
-	private float lineLength = 0.5f;
-	private Vector3[] linePositions;
+	private float lineAngle = 0.0f;
+	private float lineLength = 0.1f;
 	private Vector3 lastPosition;
+	private Vector3[] linePositions;
+	private const int LINE_COUNT = 1000;
 
 	void Start() {
-		brain = new NeuralNet();
-		brain.CreateNetwork();
 
-		leaves = GetComponentsInChildren<Leaf>() as Leaf[];
+		leaves = (GetComponentsInChildren<Leaf>() as Leaf[]).ToList<Leaf>();
 
 		lineRenderer = GetComponent<LineRenderer>() as LineRenderer;
-		linePositions = new Vector3[100];
+		linePositions = new Vector3[LINE_COUNT];
 		linePositions[0] = new Vector3();
 		linePositions[1] = new Vector3();
 
@@ -32,26 +32,18 @@ public class Root : MonoBehaviour
 		lastPosition = linePositions[lineCount];
 	}
 
-	void Update() {
-		List<double> inputs = new List<double>();
-		foreach (Leaf leaf in leaves) {
-			inputs.Add(leaf.Intensity);
-		}
-		List<double> ouputs = brain.Update(inputs);
-
-		float factorTranslation = (float)ouputs[0];
-		float factorRotation = ((float)ouputs[1] - 0.5f) * 2.0f;
+	public void Grow(double factorTranslation, double factorRotation) {
 		
-		lineAngle = factorRotation * Mathf.PI * 10.0f;
+		lineAngle = (float)factorRotation * Mathf.PI * 10.0f;
 		Vector3 rotation = new Vector3(Mathf.Cos(lineAngle), Mathf.Sin(lineAngle), 0);
 
-		Vector3 nextPosition = lastPosition + factorTranslation * rotation * Time.deltaTime;
+		Vector3 nextPosition = lastPosition + (float)factorTranslation * rotation * Time.deltaTime;
 		linePositions[lineCount] = nextPosition;
 		lastPosition = nextPosition;
 
 		lineRenderer.SetPosition(lineCount, nextPosition);
 
-		if (Vector3.Distance(linePositions[lineCount-1], nextPosition) >= lineLength) {
+		if (lineCount < LINE_COUNT-1 && Vector3.Distance(linePositions[lineCount-1], nextPosition) >= lineLength) {
 			lineCount++;
 			linePositions[lineCount] = linePositions[lineCount-1];
 			lineRenderer.SetVertexCount(lineCount+1);
