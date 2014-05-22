@@ -6,9 +6,11 @@ public class Plant : MonoBehaviour
 {
 
 	// Need to be algo genetic generated
-	private float genParamRootGrowth = 1.0f;
+	private float genParamRootGrowth = 2.0f;
 	private float genParamRootRotation = 30.0f;
-	private float genParamLeafGrowth = 1.0f;
+	private float genParamLeafGrowth = 0.01f;
+
+	private float plantMatter = 1.0f;
 
 	// Flowers
 	public GameObject flowerPrefab;
@@ -48,7 +50,7 @@ public class Plant : MonoBehaviour
 			flowers.Add(flowerObject.GetComponent<Flower>());
 
 			// add flower inputs (one per flower for now)
-			//inputs += 1;
+			inputs += 1;
 
 			// Generate Roots
 			for (int r = 0; r < rootCount[d]; r++) {
@@ -89,9 +91,10 @@ public class Plant : MonoBehaviour
 		if (ready) {
 
 			// Get Inputs
-			//List<double> inputs = GetLeavesEnergy();
-			List<double> inputs = new List<double>();
-			inputs.Add(GetLeavesEnergy());
+			List<double> inputs = GetLightEnergies();
+			//List<double> inputs = new List<double>();
+			//inputs.Add(GetLightEnergy());
+			inputs.Add(GetMatterEnergy());
 
 			// Get Outputs
 			List<double> ouputs = brain.Update(inputs);
@@ -115,7 +118,7 @@ public class Plant : MonoBehaviour
 		}
 	}
 
-	double GetLeavesEnergy() {
+	double GetLightEnergy() {
 		double energy = 0;
 
 		// Flowers Energy
@@ -133,7 +136,11 @@ public class Plant : MonoBehaviour
 		return energy;
 	}
 
-	List<double> GetLeavesEnergies() {
+	double GetMatterEnergy() {
+		return plantMatter * Mathf.Cos(Time.time);
+	}
+
+	List<double> GetLightEnergies() {
 		List<double> energies = new List<double>();
 
 		// Flowers Energy

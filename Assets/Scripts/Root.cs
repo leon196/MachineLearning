@@ -15,7 +15,7 @@ public class Root : MonoBehaviour
 	private LineRenderer lineRenderer;
 	private int lineCount = 1;
 	private float angle = 0.0f;
-	private float lineLength = 0.1f;
+	private float lineMaxSegment = 0.1f;
 	private Vector3 lastPosition;
 	private Vector3[] linePositions;
 	private const int LINE_COUNT = 1000;
@@ -33,7 +33,7 @@ public class Root : MonoBehaviour
 		leaves = (GetComponentsInChildren<Leaf>() as Leaf[]).ToList<Leaf>();
 
 		// Update Brain
-		//plant.AddBrainInput();
+		plant.AddBrainInput();
 	}
 
 	public void Setup()
@@ -70,19 +70,20 @@ public class Root : MonoBehaviour
 
 		// Update LineRenderer
 		lineRenderer.SetPosition(lineCount, nextPosition);
-		if (lineCount < LINE_COUNT-1 && Vector3.Distance(linePositions[lineCount-1], nextPosition) >= lineLength) {
+		if (lineCount < LINE_COUNT-1 && Vector3.Distance(linePositions[lineCount-1], nextPosition) >= lineMaxSegment) {
 			lineCount++;
 			linePositions[lineCount] = linePositions[lineCount-1];
 			lineRenderer.SetVertexCount(lineCount+1);
 			lineRenderer.SetPosition(lineCount, linePositions[lineCount]);
 			lastPosition = linePositions[lineCount];
+
 		}
 
 		// Leaf Growth
 		leafGrowth += (float)factorLeaf;
-		if (leafGrowth >= 100.0f) {
+		if (leafGrowth >= 1.0f) {
 			CreateLeaf();
-			leafGrowth -= 100.0f;
+			leafGrowth = 0.0f;
 		}
 	}
 }
