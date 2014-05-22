@@ -18,7 +18,7 @@ public class Flower : MonoBehaviour {
 	
 	void Update ()
 	{
-		energy = Mathf.Cos(Time.time * speedRandom + offsetRandom * Mathf.PI * 2.0f);
+		//energy = Mathf.Cos(Time.time * speedRandom + offsetRandom * Mathf.PI * 2.0f);
 		//text.text = String.Format("{0:0.000}", energy);
 	}
 

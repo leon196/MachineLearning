@@ -1,14 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Game : MonoBehaviour {
+public class Game {
 
+	private static Game instance;
 
-	// Use this for initialization
-	void Start () {
+	private Game() {}
+
+	public static Game Instance {
+		get  {
+			if (instance == null) { instance = new Game(); }
+			return instance;
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	private ResourceGenerator _grid = null;
+	public ResourceGenerator GetGrid() { 
+		if (!_grid) { 
+			_grid = Object.FindObjectOfType(typeof(ResourceGenerator)) as ResourceGenerator;
+		}
+		return _grid;
 	}
+
 }

@@ -91,18 +91,27 @@ public class Plant : MonoBehaviour
 		ready = true;
 	}
 
+	// Update Neural Network
 	void Update() {
 
 		if (ready) {
+
+			// Get Inputs
 			List<double> inputs = GetLeavesEnergy();
+
+			// Get Outputs
 			List<double> ouputs = brain.Update(inputs);
 
+			// Indexes
 			int rootTranslation = 0;
 			int rootRotation = 1;
 			int rootGrowth = 2;
+
 			foreach (Root root in roots) {
+
+				// Update Root
 				root.Grow(ouputs[rootTranslation], ouputs[rootRotation], ouputs[rootGrowth]);
-				// offset
+
 				rootTranslation += outputPerRoot;
 				rootRotation += outputPerRoot;
 				rootGrowth += outputPerRoot;
