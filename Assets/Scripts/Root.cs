@@ -14,7 +14,6 @@ public class Root : MonoBehaviour
 
 	private LineRenderer lineRenderer;
 	private int lineCount = 1;
-	private float translation = 0.0f;
 	private float angle = 0.0f;
 	private float lineLength = 0.1f;
 	private Vector3 lastPosition;

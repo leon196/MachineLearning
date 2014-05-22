@@ -24,25 +24,12 @@ public class Plant : MonoBehaviour
 
 	private bool ready = false;
 
-	Vector3 RandomVector(float range) { return new Vector3(Random.Range(-range, range), Random.Range(-range, range), Random.Range(-range, range)); }
-
-	void Start()
-	{
-		// Generate Plant
-		flowers = new List<Flower>();
-		roots = new List<Root>();
-
-		int flowerCount = Random.Range(1, 4);
-		int[] rootCount = new int[flowerCount];
-		for (int f = 0; f < flowerCount; f++) {
-			rootCount[f] = Random.Range(1, 5);
-		}
-		GeneratePlant(flowerCount, rootCount);
-	}
-
-	void GeneratePlant(int flowerCount, int[] rootCount)
+	public void GeneratePlant(int flowerCount, int[] rootCount)
 	{
 		ready = false;
+
+		flowers = new List<Flower>();
+		roots = new List<Root>();
 
 		Vector3 plantPosition = new Vector3();
 		for (int d = 0; d < flowerCount; d++) {

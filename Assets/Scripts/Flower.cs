@@ -16,11 +16,11 @@ public class Flower : MonoBehaviour {
 		speedRandom = UnityEngine.Random.Range(0.5f, 3.0f);
 	}
 	
-	void Update ()
-	{
+	//void Update ()
+	//{
 		//energy = Mathf.Cos(Time.time * speedRandom + offsetRandom * Mathf.PI * 2.0f);
 		//text.text = String.Format("{0:0.000}", energy);
-	}
+	//}
 
-	public float Energy { get { return energy; } }
+	public float Energy { get { return energy * Mathf.Cos(Time.time * speedRandom + offsetRandom * Mathf.PI * 2.0f); } }
 }

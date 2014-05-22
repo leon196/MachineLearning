@@ -16,7 +16,7 @@ public class Leaf : MonoBehaviour {
 		speedRandom = UnityEngine.Random.Range(0.5f, 3.0f);
 
 		// Get Energy from Light Intensity on the Grid
-		energy = Game.Instance.GetGrid().GetIntensityPosition(transform.position);
+		energy = Manager.Instance.GetGrid().GetIntensityPosition(transform.position);
 		//Debug.Log(energy);
 	}
 	
