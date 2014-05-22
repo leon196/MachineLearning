@@ -10,7 +10,7 @@ public class ResourceGenerator : MonoBehaviour {
 	private int gridDimension = 9;
 	private float lightScale = 1.0f;
 
-	private float minDistanceBetweenLightAndLeaf = 0.5f;
+	private float minDistanceBetweenLightAndLeaf = 1.0f;
 
 	// Use this for initialization
 	void Start ()
@@ -21,7 +21,7 @@ public class ResourceGenerator : MonoBehaviour {
 
 		// ResourceLights
 		lights = new List<ResourceLight>();
-		int lightCount = 20;
+		int lightCount = 40;
 		float half = gridDimension * lightScale * 0.5f;
 		for (int l = 0; l < lightCount; l++)
 		{
