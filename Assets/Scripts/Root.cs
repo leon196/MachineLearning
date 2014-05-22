@@ -20,6 +20,8 @@ public class Root : MonoBehaviour
 	private Vector3[] linePositions;
 	private const int LINE_COUNT = 1000;
 
+	private float polarity = 1.0f;
+
 	private float halfGrid;
 
 	public void CreateLeaf()
@@ -58,12 +60,20 @@ public class Root : MonoBehaviour
 	public void Grow(double factorTranslation, double factorRotation, double factorLeaf)
 	{
 		// Rotation & Translation
-		angle = (float)factorRotation;
+		angle = (float)factorRotation * polarity;
 		Vector3 rotation = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
 		Vector3 nextPosition = lastPosition + (float)factorTranslation * rotation * Time.deltaTime;
 
+		if (nextPosition.x < -halfGrid || nextPosition.x > halfGrid || nextPosition.y < -halfGrid || nextPosition.y > halfGrid) {
+			//angle += Mathf.PI;
+			//rotation = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
+			//nextPosition = lastPosition + (float)factorTranslation * rotation * Time.deltaTime;
+			polarity *= -1.0f;
+		}
+
 		// Clamp screen borders
-		nextPosition = new Vector3(Mathf.Max(-halfGrid, Mathf.Min(nextPosition.x, halfGrid)), Mathf.Max(-halfGrid, Mathf.Min(nextPosition.y, halfGrid)), 0);
+		float offset = 1.0f;
+		nextPosition = new Vector3(Mathf.Max(-halfGrid+offset, Mathf.Min(nextPosition.x, halfGrid-offset)), Mathf.Max(-halfGrid+offset, Mathf.Min(nextPosition.y, halfGrid-offset)), 0);
 		
 		linePositions[lineCount] = nextPosition;
 		lastPosition = nextPosition;
@@ -84,6 +94,8 @@ public class Root : MonoBehaviour
 		if (leafGrowth >= 1.0f) {
 			CreateLeaf();
 			leafGrowth = 0.0f;
+
+			plant.AddCaseGrid(Manager.Instance.GetGrid().CheckGridPosition(nextPosition));
 		}
 	}
 }

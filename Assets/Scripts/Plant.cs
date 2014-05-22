@@ -31,9 +31,12 @@ public class Plant : MonoBehaviour
 
 	private bool ready = false;
 
+	private int caseGridCount = 0;
+
 	public void GeneratePlant(int flowerCount, int[] rootCount)
 	{
 		ready = false;
+		caseGridCount = 0;
 
 		flowers = new List<Flower>();
 		roots = new List<Root>();
@@ -163,5 +166,9 @@ public class Plant : MonoBehaviour
 		inputs++;
 		brain.CreateNetwork(inputs, outputs, layers, neurons);
 		ready = true;
+	}
+
+	public void AddCaseGrid(int amount) {
+		caseGridCount += amount;
 	}
 }

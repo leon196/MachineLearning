@@ -56,4 +56,9 @@ public class ResourceGenerator : MonoBehaviour {
 		}
 		return intensity;
 	}
+
+	public int CheckGridPosition(Vector3 target) {
+		return 0;
+		//new Vector3((randomIndex % gridDimension) * lightScale, Mathf.Floor(randomIndex/gridDimension) * lightScale, 0);
+	}
 }
