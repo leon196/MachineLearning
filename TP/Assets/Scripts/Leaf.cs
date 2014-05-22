@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Feuille : MonoBehaviour {
+public class Leaf : MonoBehaviour {
 
 	private TextMesh text;
 	private float intensity = 0.0f;

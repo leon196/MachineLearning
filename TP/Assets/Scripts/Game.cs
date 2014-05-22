@@ -9,7 +9,8 @@ public class Game : MonoBehaviour {
 	private float lineLength = 1.0f;
 	private Vector3[] linePositions;
 
-	private Feuille[] feuilles;
+	private Leaf[] feuilles;
+	//private 
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +23,7 @@ public class Game : MonoBehaviour {
 		racine.SetPosition(0, linePositions[0]);
 		racine.SetPosition(1, linePositions[1]);
 
-		feuilles = GetComponentsInChildren<Feuille>() as Feuille[];
+		feuilles = GetComponentsInChildren<Leaf>() as Leaf[];
 	}
 	
 	// Update is called once per frame
@@ -30,7 +31,7 @@ public class Game : MonoBehaviour {
 
 		float feuilleIntensity = 0.0f;
 
-		foreach (Feuille feuille in feuilles) {
+		foreach (Leaf feuille in feuilles) {
 			feuilleIntensity += feuille.Intensity;
 		}
 
