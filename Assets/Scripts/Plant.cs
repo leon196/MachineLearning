@@ -5,11 +5,15 @@ using System.Collections.Generic;
 public class Plant : MonoBehaviour
 {
 
-	// Genetic Elements
-	public int rootCount = 3;
+	// Flowers
+	public GameObject flowerPrefab;
+	private List<Flower>  flowers;
+	private int flowerCount = 1;
+
+	// Roots
 	public GameObject rootPrefab;
 	private List<Root> roots;
-	private int rootsCount;
+	private int rootCount = 3;
 
 	// Neural Network
 	private NeuralNet brain;
@@ -18,8 +22,25 @@ public class Plant : MonoBehaviour
 	private int layers = 1;
 	private int neurons = 6;
 
-	void Start() {
+	private int outputPerRoot = 3; // translation & rotation & growth
 
+	private bool ready = false;
+
+	void Start()
+	{
+		// Generate Plant
+		flowers = new List<Flower>();
+		for (int d = 0; d < flowerCount; d++) {
+			GameObject flowerObject = Instantiate(flowerPrefab) as GameObject;
+			flowerObject.transform.parent = transform;
+			flowerObject.transform.localPosition = Vector3.zero;
+			flowers.Add(flowerObject.GetComponent<Flower>());
+
+			// add flower inputs (one per flower for now)
+			inputs += 1;
+		}
+
+		// Generate Roots
 		roots = new List<Root>();
 		for (int r = 0; r < rootCount; r++) {
 			GameObject rootObject = Instantiate(rootPrefab) as GameObject;
@@ -28,32 +49,45 @@ public class Plant : MonoBehaviour
 			roots.Add(rootObject.GetComponent<Root>());
 
 			// add leaves inputs (one per root for now)
-			inputs += 1;
-			// add roots outputs (translation & rotation)
-			outputs += 2;
+			//inputs += 0;
+			// add roots outputs 
+			outputs += outputPerRoot;
 		}
 
 		brain = new NeuralNet();
 		brain.CreateNetwork(inputs, outputs, layers, neurons);
+
+		ready = true;
 	}
 
 	void Update() {
 
-		List<double> inputs = GetLeavesEnergy();
-		List<double> ouputs = brain.Update(inputs);
+		if (ready) {
+			List<double> inputs = GetLeavesEnergy();
+			List<double> ouputs = brain.Update(inputs);
 
-		int rootTranslation = 0;
-		int rootRotation = 1;
-		foreach (Root root in roots) {
-			root.Grow(ouputs[rootTranslation], ouputs[rootRotation]);
-			// offset
-			rootTranslation += 2;
-			rootRotation += 2;
+			int rootTranslation = 0;
+			int rootRotation = 1;
+			int rootGrowth = 2;
+			foreach (Root root in roots) {
+				root.Grow(ouputs[rootTranslation], ouputs[rootRotation], ouputs[rootGrowth]);
+				// offset
+				rootTranslation += outputPerRoot;
+				rootRotation += outputPerRoot;
+				rootGrowth += outputPerRoot;
+			}
 		}
 	}
 
 	List<double> GetLeavesEnergy() {
 		List<double> energies = new List<double>();
+
+		// Flowers Energy
+		foreach (Flower flower in flowers) {
+			energies.Add(flower.Energy);
+		}
+
+		// Roots Leaves Energy
 		foreach (Root root in roots) {
 			List<Leaf> leaves = root.Leaves;
 			foreach (Leaf leaf in leaves) {
@@ -61,5 +95,12 @@ public class Plant : MonoBehaviour
 			}
 		}
 		return energies;
+	}
+
+	public void AddBrainInput() {
+		ready = false;
+		inputs++;
+		brain.CreateNetwork(inputs, outputs, layers, neurons);
+		ready = true;
 	}
 }

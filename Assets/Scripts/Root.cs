@@ -5,8 +5,12 @@ using System.Collections.Generic;
 
 public class Root : MonoBehaviour
 {
-	private List<Leaf> leaves;
+	private Plant plant;
+
+	public GameObject leafPrefab;
+	private List<Leaf> leaves = new List<Leaf>();
 	public List<Leaf> Leaves { get { return leaves;} }
+	private float leafGrowth = 0.0f;
 
 	private LineRenderer lineRenderer;
 	private int lineCount = 1;
@@ -16,10 +20,21 @@ public class Root : MonoBehaviour
 	private Vector3[] linePositions;
 	private const int LINE_COUNT = 1000;
 
-	void Start() {
+	public void CreateLeaf()
+	{
+		// Spawn GameObject
+		GameObject leaf = Instantiate(leafPrefab) as GameObject;
+		leaf.transform.parent = transform;
+		leaf.transform.position = lastPosition;
 
+		// Update List
 		leaves = (GetComponentsInChildren<Leaf>() as Leaf[]).ToList<Leaf>();
 
+		// Update Brain
+		plant.AddBrainInput();
+	}
+
+	void Start() {
 		lineRenderer = GetComponent<LineRenderer>() as LineRenderer;
 		linePositions = new Vector3[LINE_COUNT];
 		linePositions[0] = new Vector3();
@@ -30,19 +45,21 @@ public class Root : MonoBehaviour
 		lineRenderer.SetPosition(1, linePositions[1]);
 
 		lastPosition = linePositions[lineCount];
+
+		plant = transform.parent.GetComponent<Plant>();
 	}
 
-	public void Grow(double factorTranslation, double factorRotation) {
+	public void Grow(double factorTranslation, double factorRotation, double factorLeaf) {
 		
+		// Rotation & Translation
 		lineAngle = (float)factorRotation * Mathf.PI * 10.0f;
 		Vector3 rotation = new Vector3(Mathf.Cos(lineAngle), Mathf.Sin(lineAngle), 0);
-
 		Vector3 nextPosition = lastPosition + (float)factorTranslation * rotation * Time.deltaTime;
 		linePositions[lineCount] = nextPosition;
 		lastPosition = nextPosition;
 
+		// Update LineRenderer
 		lineRenderer.SetPosition(lineCount, nextPosition);
-
 		if (lineCount < LINE_COUNT-1 && Vector3.Distance(linePositions[lineCount-1], nextPosition) >= lineLength) {
 			lineCount++;
 			linePositions[lineCount] = linePositions[lineCount-1];
@@ -51,5 +68,11 @@ public class Root : MonoBehaviour
 			lastPosition = linePositions[lineCount];
 		}
 
+		// Leaf Growth
+		leafGrowth += (float)factorLeaf;
+		if (leafGrowth >= 100.0f) {
+			CreateLeaf();
+			leafGrowth -= 100.0f;
+		}
 	}
 }
