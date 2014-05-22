@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class NeuralNet {
 
@@ -7,12 +9,12 @@ public class NeuralNet {
 	private int outputCount = 2;
 	private int layerHiddenCount = 1;
 	private int neuronCountPerLayer = 6;
-	private ArrayList layers; // <NeuronLayer> 
+	private List<NeuronLayer> layers; // <NeuronLayer> 
 	private double bias = -1.0;
 	private double activationResponse = 1.0;
 
 	public void CreateNetwork() {
-		layers = new ArrayList();
+		layers = new List<NeuronLayer>();
 		//create the layers of the network
 		if (layerHiddenCount > 0) {
 			//create first hidden layer
@@ -30,21 +32,20 @@ public class NeuralNet {
 			//create output layer
 			layers.Add(new NeuronLayer(outputCount, inputCount));
 		}
+		Debug.Log(layers.Count);
 	}
 
-	public ArrayList /*<double>*/ GetWeights() {
+	public List<double> /*<double>*/ GetWeights() {
 		//this will hold the weights
-		ArrayList weights = new ArrayList();
+		List<double> weights = new List<double>();
 		
 		//for each layer
 		for (int i = 0; i < layerHiddenCount + 1; ++i) {
 			//for each neuron
-			NeuronLayer layer = layers[i] as NeuronLayer;
-			for (int j = 0; j < layer.neuronCount; ++j) {
+			for (int j = 0; j < layers[i].neuronCount; ++j) {
 				//for each weight
-				Neuron neuron = layer.neurons[j] as Neuron;
-				for (int k = 0; k < neuron.inputCount; ++k) {
-					weights.Add((double)neuron.inputWeights[k]);
+				for (int k = 0; k < layers[i].neurons[j].inputCount; ++k) {
+					weights.Add(layers[i].neurons[j].inputWeights[k]);
 				}
 			}
 		}
@@ -52,17 +53,13 @@ public class NeuralNet {
 	}
 
 	public int GetNumberOfWeights() {
-
 		int weights = 0;
-		
 		//for each layer
 		for (int i = 0; i < layerHiddenCount + 1; ++i) {
-			NeuronLayer layer = layers[i] as NeuronLayer;
 			//for each neuron
-			for (int j = 0; j < layer.neuronCount; ++j) {
-				Neuron neuron = layer.neurons[j] as Neuron;
+			for (int j = 0; j < layers[i].neuronCount; ++j) {
 				//for each weight
-				for (int k = 0; k < neuron.inputCount; ++k) {
+				for (int k = 0; k < layers[i].neurons[j].inputCount; ++k) {
 					weights++;
 				}
 			}
@@ -70,53 +67,55 @@ public class NeuralNet {
 		return weights;
 	}
 
-	public void PutWeights(ArrayList weights /*<double>*/) {
+	public void PutWeights(List<double> weights) {
 		int cWeight = 0;
-		
 		//for each layer
 		for (int i = 0; i < layerHiddenCount + 1; ++i) {
-			NeuronLayer layer = layers[i] as NeuronLayer;
 			//for each neuron
-			for (int j = 0; j < layer.neuronCount; ++j) {
-				Neuron neuron = layer.neurons[j] as Neuron;
+			for (int j = 0; j < layers[i].neuronCount; ++j) {
 				//for each weight
-				for (int k = 0; k < neuron.inputCount; ++k) {
-					neuron.inputWeights[k] = weights[cWeight++];
+				for (int k = 0; k < layers[i].neurons[j].inputCount; ++k) {
+					layers[i].neurons[j].inputWeights[k] = weights[cWeight++];
 				}
 			}
 		}
 	}
 
-	public ArrayList /*<double>*/ Update(ArrayList /*<double>*/ inputs) {
-		ArrayList outputs = new ArrayList();
+	public List<double> Update(List<double> inputs) {
+		List<double> outputs = new List<double>();
 		int weight = 0;
 		if (inputs.Count != inputCount) {
 			return outputs;
 		}
 		for (int i = 0; i < layerHiddenCount + 1; ++i) {
 			if (i > 0) {
-				inputs = outputs;
+				inputs = new List<double>(outputs);
 			}
-
+			Debug.Log("0 " + inputs.Count);
 			outputs.Clear();
+			Debug.Log("1 " + inputs.Count);
 			weight = 0;
 
-			NeuronLayer layer = layers[i] as NeuronLayer;
-			int neuronCount = layer.neuronCount;
+			//Debug.Log("Hahein ? " + i + " = " + inputs[weight]);
+
+			int neuronCount = layers[i].neuronCount;
 
 			for (int j = 0; j < neuronCount; ++j) {
-				Neuron neuron = layer.neurons[j] as Neuron;
 				double netInput = 0;
-				int numInputs = neuron.inputCount;
+				int numInputs = layers[i].neurons[j].inputCount;
 				for (int k = 0; k < numInputs-1; ++k) {
-					netInput += (double)neuron.inputWeights[k] * (double)inputs[weight++];
+					//Debug.Log("i : " + i);
+					//Debug.Log("j : " + j);
+					//Debug.Log("k : " + k);
+					//Debug.Log("this ? " + layers[i].neurons[j].inputWeights[k]);
+					//Debug.Log("Or this ? " + inputs[weight]);
+					netInput += layers[i].neurons[j].inputWeights[k] * inputs[weight++];
 				}
-				netInput += (double)neuron.inputWeights[numInputs-1] * bias;
+				netInput += layers[i].neurons[j].inputWeights[numInputs-1] * bias;
 				outputs.Add(Sigmoid(netInput, activationResponse));
 				weight = 0;
 			}
 		}
-
 		return outputs;
 	}
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Neuron
 {
@@ -7,9 +8,10 @@ public class Neuron
 	public int inputCount;
 
 	//the weights for each input
-	public ArrayList inputWeights; // <double>
+	public List<double> inputWeights; // <double>
 
 	public Neuron (int inputCount_) {
+		inputWeights = new List<double>();
 		inputCount = inputCount_ + 1;
 		//we need an additional weight for the bias hence the +1
 		for (int i=0; i < inputCount + 1; ++i) {
