@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class NeuralNet {
 
-	private int inputCount = 1;
+	private int inputCount = 3;
 	private int outputCount = 2;
 	private int layerHiddenCount = 1;
 	private int neuronCountPerLayer = 6;
