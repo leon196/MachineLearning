@@ -1,12 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ReinforcementLearning.cs">
     <Files>
-<<<<<<< HEAD
       <File FileName="Assets/Scripts/Game.cs" Line="48" Column="39" />
-=======
-      <File FileName="Assets\Scripts\Game.cs" Line="10" Column="1" />
->>>>>>> FETCH_HEAD
+      <File FileName="Assets/Scripts/ReinforcementLearning.cs" Line="8" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
