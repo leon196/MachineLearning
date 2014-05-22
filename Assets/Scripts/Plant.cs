@@ -8,19 +8,17 @@ public class Plant : MonoBehaviour
 	// Flowers
 	public GameObject flowerPrefab;
 	private List<Flower>  flowers;
-	private int flowerCount = 2;
 
 	// Roots
 	public GameObject rootPrefab;
 	private List<Root> roots;
-	private int rootCount = 3;
 
 	// Neural Network
 	private NeuralNet brain;
 	private int inputs = 0;
 	private int outputs = 0;
-	private int layers = 1;
-	private int neurons = 6;
+	private int layers = 2;
+	private int neurons = 9;
 
 	private int outputPerRoot = 3; // translation & rotation & growth
 
@@ -34,18 +32,24 @@ public class Plant : MonoBehaviour
 		flowers = new List<Flower>();
 		roots = new List<Root>();
 
-		// Generate Flower
+		int[] rootCount = {3, 5, 1};
+		GeneratePlant(3, rootCount);
+	}
+
+	void GeneratePlant(int flowerCount, int[] rootCount)
+	{
 		for (int d = 0; d < flowerCount; d++) {
 			GameObject flowerObject = Instantiate(flowerPrefab) as GameObject;
 			flowerObject.transform.parent = transform;
-			flowerObject.transform.localPosition = RandomVector(10.0f);
+			float range = 10.0f;
+			flowerObject.transform.localPosition = new Vector3(Random.Range(-range, range), Random.Range(-range, range), 0);
 			flowers.Add(flowerObject.GetComponent<Flower>());
 
 			// add flower inputs (one per flower for now)
 			inputs += 1;
 
 			// Generate Roots
-			for (int r = 0; r < rootCount; r++) {
+			for (int r = 0; r < rootCount[d]; r++) {
 				GameObject rootObject = Instantiate(rootPrefab) as GameObject;
 				rootObject.transform.parent = transform;
 				rootObject.transform.localPosition = flowerObject.transform.localPosition;
