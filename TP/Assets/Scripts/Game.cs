@@ -49,7 +49,5 @@ public class Game : MonoBehaviour {
 			racine.SetVertexCount(lineCount+1);
 			racine.SetPosition(lineCount, linePositions[lineCount]);
 		}
-
-
 	}
 }
