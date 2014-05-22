@@ -14,7 +14,8 @@ public class Root : MonoBehaviour
 
 	private LineRenderer lineRenderer;
 	private int lineCount = 1;
-	private float lineAngle = 0.0f;
+	private float translation = 0.0f;
+	private float angle = 0.0f;
 	private float lineLength = 0.1f;
 	private Vector3 lastPosition;
 	private Vector3[] linePositions;
@@ -54,9 +55,10 @@ public class Root : MonoBehaviour
 	public void Grow(double factorTranslation, double factorRotation, double factorLeaf)
 	{
 		// Rotation & Translation
-		lineAngle = (float)factorRotation * Mathf.PI * 10.0f;
-		Vector3 rotation = new Vector3(Mathf.Cos(lineAngle), Mathf.Sin(lineAngle), 0);
+		angle = (float)factorRotation * Mathf.PI * 2.0f;
+		Vector3 rotation = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
 		Vector3 nextPosition = lastPosition + (float)factorTranslation * rotation * Time.deltaTime;
+		
 		linePositions[lineCount] = nextPosition;
 		lastPosition = nextPosition;
 
