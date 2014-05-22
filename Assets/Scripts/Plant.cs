@@ -22,7 +22,7 @@ public class Plant : MonoBehaviour
 
 	// Neural Network
 	private NeuralNet brain;
-	private int inputs = 1;
+	private int inputs = 2;
 	private int outputs = 0;
 	private int layers = 2;
 	private int neurons = 9;
@@ -50,7 +50,7 @@ public class Plant : MonoBehaviour
 			flowers.Add(flowerObject.GetComponent<Flower>());
 
 			// add flower inputs (one per flower for now)
-			inputs += 1;
+			//inputs += 1;
 
 			// Generate Roots
 			for (int r = 0; r < rootCount[d]; r++) {
@@ -91,9 +91,9 @@ public class Plant : MonoBehaviour
 		if (ready) {
 
 			// Get Inputs
-			List<double> inputs = GetLightEnergies();
-			//List<double> inputs = new List<double>();
-			//inputs.Add(GetLightEnergy());
+			//List<double> inputs = GetLightEnergies();
+			List<double> inputs = new List<double>();
+			inputs.Add(GetLightEnergy());
 			inputs.Add(GetMatterEnergy());
 
 			// Get Outputs
