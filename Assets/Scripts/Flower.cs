@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System;
+using System.Collections;
 
-public class Leaf : MonoBehaviour {
+public class Flower : MonoBehaviour {
 
 	//private TextMesh text;
 	private float energy = 0.0f;
