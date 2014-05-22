@@ -22,7 +22,7 @@ public class ResourceGenerator : MonoBehaviour {
 		// ResourceLights
 		lights = new List<ResourceLight>();
 		int lightCount = 40;
-		float half = gridDimension * lightScale * 0.5f;
+		float half = GetHalf();
 		for (int l = 0; l < lightCount; l++)
 		{
 			int randomIndex = Random.Range(0, gridDimension * gridDimension);
@@ -39,6 +39,10 @@ public class ResourceGenerator : MonoBehaviour {
 			light.intensity = intensity;
 			lights.Add(light);
 		}
+	}
+
+	public float GetHalf() {
+		return gridDimension * lightScale * 0.5f;
 	}
 	
 	//public List<ResourceLight> Resouces { get { return lights; } }

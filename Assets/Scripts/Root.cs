@@ -20,6 +20,8 @@ public class Root : MonoBehaviour
 	private Vector3[] linePositions;
 	private const int LINE_COUNT = 1000;
 
+	private float halfGrid;
+
 	public void CreateLeaf()
 	{
 		// Spawn GameObject
@@ -36,6 +38,8 @@ public class Root : MonoBehaviour
 
 	public void Setup()
 	{
+		halfGrid = Manager.Instance.GetGrid().GetHalf();
+
 		lineRenderer = GetComponent<LineRenderer>() as LineRenderer;
 
 		linePositions = new Vector3[LINE_COUNT];
@@ -57,6 +61,9 @@ public class Root : MonoBehaviour
 		angle = (float)factorRotation;
 		Vector3 rotation = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
 		Vector3 nextPosition = lastPosition + (float)factorTranslation * rotation * Time.deltaTime;
+
+		// Clamp screen borders
+		nextPosition = new Vector3(Mathf.Max(-halfGrid, Mathf.Min(nextPosition.x, halfGrid)), Mathf.Max(-halfGrid, Mathf.Min(nextPosition.y, halfGrid)), 0);
 		
 		linePositions[lineCount] = nextPosition;
 		lastPosition = nextPosition;
