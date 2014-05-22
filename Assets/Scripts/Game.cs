@@ -23,6 +23,7 @@ public class Game : MonoBehaviour {
 			}
 
 			GameObject plantObject = Instantiate(plantPrefab) as GameObject;
+			plantObject.transform.parent = transform;
 
 			float range = 3.0f;
 			plantObject.transform.position = p == 0 ? new Vector3(-range, -range, 0.0f) : new Vector3(range, range, 0.0f);

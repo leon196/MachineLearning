@@ -20,7 +20,7 @@ public class Plant : MonoBehaviour
 
 	// Neural Network
 	private NeuralNet brain;
-	private int inputs = 0;
+	private int inputs = 1;
 	private int outputs = 0;
 	private int layers = 2;
 	private int neurons = 9;
@@ -48,7 +48,7 @@ public class Plant : MonoBehaviour
 			flowers.Add(flowerObject.GetComponent<Flower>());
 
 			// add flower inputs (one per flower for now)
-			inputs += 1;
+			//inputs += 1;
 
 			// Generate Roots
 			for (int r = 0; r < rootCount[d]; r++) {
@@ -89,7 +89,9 @@ public class Plant : MonoBehaviour
 		if (ready) {
 
 			// Get Inputs
-			List<double> inputs = GetLeavesEnergy();
+			//List<double> inputs = GetLeavesEnergy();
+			List<double> inputs = new List<double>();
+			inputs.Add(GetLeavesEnergy());
 
 			// Get Outputs
 			List<double> ouputs = brain.Update(inputs);
@@ -113,7 +115,25 @@ public class Plant : MonoBehaviour
 		}
 	}
 
-	List<double> GetLeavesEnergy() {
+	double GetLeavesEnergy() {
+		double energy = 0;
+
+		// Flowers Energy
+		foreach (Flower flower in flowers) {
+			energy += flower.Energy;
+		}
+
+		// Roots Leaves Energy
+		foreach (Root root in roots) {
+			List<Leaf> leaves = root.Leaves;
+			foreach (Leaf leaf in leaves) {
+				energy += leaf.Energy;
+			}
+		}
+		return energy;
+	}
+
+	List<double> GetLeavesEnergies() {
 		List<double> energies = new List<double>();
 
 		// Flowers Energy
