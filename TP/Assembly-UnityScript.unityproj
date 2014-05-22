@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{43A373EB-1CCD-E63C-FFC1-75980209961E}</ProjectGuid>
+	<ProjectGuid>{76ADD048-3074-395B-1CB8-234EFD874B0C}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,12 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Feuille.cs" />
-     <Compile Include="Assets\Scripts\Game.cs" />
-     <Compile Include="Assets\Scripts\GridGeneration.cs" />
-     <Compile Include="Assets\Scripts\NeuralNet.cs" />
-     <Compile Include="Assets\Scripts\Neuron.cs" />
-     <Compile Include="Assets\Scripts\NeuronLayer.cs" />
+     <Compile Include="Assets\Scripts\NeuralNet.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

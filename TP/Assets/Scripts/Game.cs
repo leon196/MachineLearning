@@ -10,6 +10,7 @@ public class Game : MonoBehaviour {
 	private Vector3[] linePositions;
 
 	private Feuille[] feuilles;
+	//private 
 
 	// Use this for initialization
 	void Start () {

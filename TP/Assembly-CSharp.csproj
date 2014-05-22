@@ -49,17 +49,9 @@
      <Compile Include="Assets\Scripts\Feuille.cs" />
      <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\GridGeneration.cs" />
-     <None Include="Assets\log4net.xml" />
-     <None Include="Assets\SharpNeatLib.xml" />
- <Reference Include="log4net">
- <HintPath>Assets\log4net.dll</HintPath>
- </Reference>
- <Reference Include="SharpNeatDomains">
- <HintPath>Assets\SharpNeatDomains.dll</HintPath>
- </Reference>
- <Reference Include="SharpNeatLib">
- <HintPath>Assets\SharpNeatLib.dll</HintPath>
- </Reference>
+     <Compile Include="Assets\Scripts\NeuralNet.cs" />
+     <Compile Include="Assets\Scripts\Neuron.cs" />
+     <Compile Include="Assets\Scripts\NeuronLayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
