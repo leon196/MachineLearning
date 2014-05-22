@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 using System.Collections;
 
 public class GeneticGenerator : MonoBehaviour {
@@ -11,13 +11,13 @@ public class GeneticGenerator : MonoBehaviour {
 	void Update () {
 	
 	}
-
+*/
 
 /*import bpy
 #from math import cos, sin, tan, acos, asin, atan, pi, sqrt
 from bpy.props import *
 from random import randint, random, uniform*/
-
+/*
 // variable globale, contenant la population du problème
 List<Plant> population;
 
@@ -193,3 +193,4 @@ while (maxFitness<3700):
 print('le gagnant est : \n' + str(winner))
 
 }
+*/
