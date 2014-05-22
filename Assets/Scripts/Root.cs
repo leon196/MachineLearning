@@ -54,7 +54,7 @@ public class Root : MonoBehaviour
 	public void Grow(double factorTranslation, double factorRotation, double factorLeaf)
 	{
 		// Rotation & Translation
-		angle = (float)factorRotation * Mathf.PI * 2.0f;
+		angle = (float)factorRotation;
 		Vector3 rotation = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
 		Vector3 nextPosition = lastPosition + (float)factorTranslation * rotation * Time.deltaTime;
 		

@@ -5,6 +5,11 @@ using System.Collections.Generic;
 public class Plant : MonoBehaviour
 {
 
+	// Need to be algo genetic generated
+	private float genParamRootGrowth = 1.0f;
+	private float genParamRootRotation = 30.0f;
+	private float genParamLeafGrowth = 1.0f;
+
 	// Flowers
 	public GameObject flowerPrefab;
 	private List<Flower>  flowers;
@@ -97,7 +102,9 @@ public class Plant : MonoBehaviour
 			foreach (Root root in roots) {
 
 				// Update Root
-				root.Grow(ouputs[rootTranslation], ouputs[rootRotation], ouputs[rootGrowth]);
+				root.Grow(	ouputs[rootTranslation] * genParamRootGrowth,
+							ouputs[rootRotation] * genParamRootRotation,
+							ouputs[rootGrowth] * genParamLeafGrowth);
 
 				rootTranslation += outputPerRoot;
 				rootRotation += outputPerRoot;

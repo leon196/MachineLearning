@@ -8,7 +8,7 @@ public class ResourceGenerator : MonoBehaviour {
 	private GameObject grid;
 	private List<ResourceLight> lights;
 	private int gridDimension = 9;
-	private float lightScale = 1.0f;
+	private float lightScale = 2.0f;
 
 	private float minDistanceBetweenLightAndLeaf = 1.0f;
 
