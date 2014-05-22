@@ -8,7 +8,7 @@ public class Plant : MonoBehaviour
 	// Flowers
 	public GameObject flowerPrefab;
 	private List<Flower>  flowers;
-	private int flowerCount = 1;
+	private int flowerCount = 2;
 
 	// Roots
 	public GameObject rootPrefab;
@@ -26,33 +26,38 @@ public class Plant : MonoBehaviour
 
 	private bool ready = false;
 
+	Vector3 RandomVector(float range) { return new Vector3(Random.Range(-range, range), Random.Range(-range, range), Random.Range(-range, range)); }
+
 	void Start()
 	{
 		// Generate Plant
 		flowers = new List<Flower>();
+		roots = new List<Root>();
+
+		// Generate Flower
 		for (int d = 0; d < flowerCount; d++) {
 			GameObject flowerObject = Instantiate(flowerPrefab) as GameObject;
 			flowerObject.transform.parent = transform;
-			flowerObject.transform.localPosition = Vector3.zero;
+			flowerObject.transform.localPosition = RandomVector(10.0f);
 			flowers.Add(flowerObject.GetComponent<Flower>());
 
 			// add flower inputs (one per flower for now)
 			inputs += 1;
+
+			// Generate Roots
+			for (int r = 0; r < rootCount; r++) {
+				GameObject rootObject = Instantiate(rootPrefab) as GameObject;
+				rootObject.transform.parent = transform;
+				rootObject.transform.localPosition = flowerObject.transform.localPosition;
+				roots.Add(rootObject.GetComponent<Root>());
+
+				// add leaves inputs (one per root for now)
+				//inputs += 0;
+				// add roots outputs 
+				outputs += outputPerRoot;
+			}
 		}
 
-		// Generate Roots
-		roots = new List<Root>();
-		for (int r = 0; r < rootCount; r++) {
-			GameObject rootObject = Instantiate(rootPrefab) as GameObject;
-			rootObject.transform.parent = transform;
-			rootObject.transform.localPosition = Vector3.zero;
-			roots.Add(rootObject.GetComponent<Root>());
-
-			// add leaves inputs (one per root for now)
-			//inputs += 0;
-			// add roots outputs 
-			outputs += outputPerRoot;
-		}
 
 		brain = new NeuralNet();
 		brain.CreateNetwork(inputs, outputs, layers, neurons);

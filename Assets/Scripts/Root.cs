@@ -37,8 +37,8 @@ public class Root : MonoBehaviour
 	void Start() {
 		lineRenderer = GetComponent<LineRenderer>() as LineRenderer;
 		linePositions = new Vector3[LINE_COUNT];
-		linePositions[0] = new Vector3();
-		linePositions[1] = new Vector3();
+		linePositions[0] = transform.position;
+		linePositions[1] = transform.position;
 
 		lineRenderer.SetVertexCount(2);
 		lineRenderer.SetPosition(0, linePositions[0]);
