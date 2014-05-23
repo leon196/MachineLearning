@@ -44,7 +44,8 @@ public class Plant : MonoBehaviour
 		ready = false;
 		caseGridCount = 0;
 
-		plantColor = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f);
+		float red = Random.Range(0.0f, 1.0f);
+		plantColor = new Color(red, Random.Range(0.0f, 4.0f), 1.0f - red, 1.0f);
 
 		simpleInput = simpleInput_;
 		if (simpleInput) inputs = 2; // Total Leaf + Matter
@@ -59,7 +60,7 @@ public class Plant : MonoBehaviour
 			// Generate Flower
 			GameObject flowerObject = Instantiate(flowerPrefab) as GameObject;
 			flowerObject.transform.parent = transform;
-			float range = 2.0f;
+			float range = 4.0f;
 			flowerObject.transform.localPosition = new Vector3(Random.Range(-range, range), Random.Range(-range, range), 0);
 			flowers.Add(flowerObject.GetComponent<Flower>());
 
@@ -89,8 +90,10 @@ public class Plant : MonoBehaviour
 				GameObject rootObject = Instantiate(rootPrefab) as GameObject;
 				rootObject.transform.parent = transform;
 				rootObject.transform.localPosition = plantPosition;
-				rootObject.GetComponent<LineRenderer>().SetPosition(0, plantPosition);
-				rootObject.GetComponent<LineRenderer>().SetPosition(1, flowerObject.transform.position);
+				LineRenderer lineRenderer = rootObject.GetComponent<LineRenderer>();
+				lineRenderer.SetPosition(0, plantPosition);
+				lineRenderer.SetPosition(1, flowerObject.transform.position);
+				lineRenderer.material.color = plantColor;
 			} else {
 				plantPosition = flowerObject.transform.position;
 			}	

@@ -8,10 +8,11 @@ public class ResourceGenerator : MonoBehaviour {
 	public GameObject lightPrefab;
 	private GameObject grid;
 	private List<ResourceLight> lights;
-	private int gridDimension = 9;
+	private int gridDimension = 18;
 	private float lightScale = 2.0f;
 
 	private bool[] gridCaptured;
+	private List<GameObject> gridCapturedObjects;
 
 	private float minDistanceBetweenLightAndLeaf = 1.0f;
 
@@ -22,6 +23,7 @@ public class ResourceGenerator : MonoBehaviour {
 		grid.transform.parent = transform;
 		grid.name = "Grid";
 
+		gridCapturedObjects = new List<GameObject>();
 		gridCaptured = new bool[gridDimension*gridDimension];
 		for (int c = 0; c < gridDimension*gridDimension; c++) {
 			gridCaptured[c] = false;
@@ -29,7 +31,7 @@ public class ResourceGenerator : MonoBehaviour {
 
 		// ResourceLights
 		lights = new List<ResourceLight>();
-		int lightCount = 40;
+		int lightCount = 70;
 		float half = GetHalf();
 		for (int l = 0; l < lightCount; l++)
 		{
@@ -77,17 +79,33 @@ public class ResourceGenerator : MonoBehaviour {
 	}
 
 	public int CheckGridPosition(Vector3 target, Color caseColor) {
-		int index = (int)(Mathf.Round(target.x / lightScale + GetHalf() / lightScale)) + (int)(Mathf.Round(target.y / lightScale + GetHalf() / lightScale) * gridDimension);
+
+		float half = GetHalf();
+		if (target.x < -half || target.x > half || target.y < -half || target.y > half) {
+			return 0;
+		}
+
+		int index = (int)(Mathf.Round(target.x / lightScale + half / lightScale)) + (int)(Mathf.Round(target.y / lightScale + half / lightScale) * gridDimension);
 		if (index >= 0 && index < gridDimension * gridDimension -1 && !gridCaptured[index]) {
 			gridCaptured[index] = true;
 			GameObject caseCaptured = Instantiate(capturedPrefab) as GameObject;
-			caseCaptured.transform.position = new Vector3((index % gridDimension) * lightScale - GetHalf(), Mathf.Floor(index/gridDimension) * lightScale - GetHalf(), 0);
+			caseCaptured.transform.position = new Vector3((index % gridDimension) * lightScale - half, Mathf.Floor(index/gridDimension) * lightScale - half, 0);
 			caseCaptured.transform.parent = grid.transform;
-			caseCaptured.renderer.material.SetColor("_Color", new Color(caseColor.r, caseColor.g, caseColor.b, 0.3f));
+			caseCaptured.renderer.material.SetColor("_Color", new Color(caseColor.r, caseColor.g, caseColor.b, 0.1f));
 			caseCaptured.renderer.material.SetColor("_Emission", caseColor);
+			gridCapturedObjects.Add(caseCaptured);
 			return 1;
 		} else {
 			return 0;
+		}
+	}
+
+	public void Restart() {
+		foreach (GameObject gridCapturedObject in gridCapturedObjects) {
+			Destroy(gridCapturedObject);
+		}
+		for (int c = 0; c < gridDimension*gridDimension; c++) {
+			gridCaptured[c] = false;
 		}
 	}
 }

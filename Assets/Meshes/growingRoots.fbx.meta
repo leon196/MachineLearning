@@ -6,17 +6,22 @@ ModelImporter:
     100000: //RootNode
     100002: Feuille
     100004: Plane
+    100006: Flower
     400000: //RootNode
     400002: Feuille
     400004: Plane
+    400006: Flower
     2300000: //RootNode
     2300002: Feuille
     2300004: Plane
+    2300006: Flower
     3300000: //RootNode
     3300002: Feuille
     3300004: Plane
+    3300006: Flower
     4300000: Plane
     4300002: Feuille
+    4300004: Flower
     7400000: Default Take
     9500000: //RootNode
   materials:

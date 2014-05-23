@@ -30,6 +30,8 @@ public class Root : MonoBehaviour
 		GameObject leaf = Instantiate(leafPrefab) as GameObject;
 		leaf.transform.parent = transform;
 		leaf.transform.position = lastPosition;
+		leaf.transform.Rotate(Vector3.forward * Random.Range(0.0f, 360.0f));
+		leaf.renderer.material.color = plant.plantColor;
 
 		// Update List
 		leaves = (GetComponentsInChildren<Leaf>() as Leaf[]).ToList<Leaf>();
@@ -42,9 +44,12 @@ public class Root : MonoBehaviour
 
 	public void Setup()
 	{
+
+		plant = transform.parent.GetComponent<Plant>();
 		halfGrid = Manager.Instance.GetGrid().GetHalf();
 
 		lineRenderer = GetComponent<LineRenderer>() as LineRenderer;
+		lineRenderer.material.color = plant.plantColor;
 
 		linePositions = new Vector3[LINE_COUNT];
 		linePositions[0] = transform.position;
@@ -55,8 +60,6 @@ public class Root : MonoBehaviour
 		lineRenderer.SetPosition(1, linePositions[1]);
 
 		lastPosition = linePositions[lineCount];
-
-		plant = transform.parent.GetComponent<Plant>();
 	}
 
 	public void Grow(double factorTranslation, double factorRotation, double factorLeaf)
