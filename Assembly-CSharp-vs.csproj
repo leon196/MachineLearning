@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Neuron.cs" />
      <Compile Include="Assets\Scripts\NeuronLayer.cs" />
      <Compile Include="Assets\Scripts\Plant.cs" />
+     <Compile Include="Assets\Scripts\QLearning.cs" />
      <Compile Include="Assets\Scripts\ReinforcementLearning.cs" />
      <Compile Include="Assets\Scripts\ResourceGenerator.cs" />
      <Compile Include="Assets\Scripts\ResourceLight.cs" />
