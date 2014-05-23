@@ -14,6 +14,7 @@ public class Flower : MonoBehaviour {
 		//text = GetComponentInChildren<TextMesh>() as TextMesh;
 		offsetRandom = UnityEngine.Random.Range(-1.0f, 1.0f);
 		speedRandom = UnityEngine.Random.Range(0.5f, 3.0f);
+		energy = UnityEngine.Random.Range(0.4f, 0.8f);
 	}
 	
 	//void Update ()

@@ -4,11 +4,15 @@ using System.Collections.Generic;
 
 public class Plant : MonoBehaviour
 {
+    // attributs utilisés et modifiés par l'algorithme génétique, sous forme de séquences de bits
+    public List<short[]> attributes;
 
 	// Need to be algo genetic generated
-	private float genParamRootGrowth = 1.0f;
+	private float genParamRootGrowth = 2.0f;
 	private float genParamRootRotation = 30.0f;
-	private float genParamLeafGrowth = 1.0f;
+	private float genParamLeafGrowth = 0.01f;
+
+	private float plantMatter = 1.0f;
 
 	// Flowers
 	public GameObject flowerPrefab;
@@ -20,7 +24,7 @@ public class Plant : MonoBehaviour
 
 	// Neural Network
 	private NeuralNet brain;
-	private int inputs = 1;
+	private int inputs = 2;
 	private int outputs = 0;
 	private int layers = 2;
 	private int neurons = 9;
@@ -29,9 +33,12 @@ public class Plant : MonoBehaviour
 
 	private bool ready = false;
 
+	private int caseGridCount = 0;
+
 	public void GeneratePlant(int flowerCount, int[] rootCount)
 	{
 		ready = false;
+		caseGridCount = 0;
 
 		flowers = new List<Flower>();
 		roots = new List<Root>();
@@ -89,9 +96,10 @@ public class Plant : MonoBehaviour
 		if (ready) {
 
 			// Get Inputs
-			//List<double> inputs = GetLeavesEnergy();
+			//List<double> inputs = GetLightEnergies();
 			List<double> inputs = new List<double>();
-			inputs.Add(GetLeavesEnergy());
+			inputs.Add(GetLightEnergy());
+			inputs.Add(GetMatterEnergy());
 
 			// Get Outputs
 			List<double> ouputs = brain.Update(inputs);
@@ -115,7 +123,7 @@ public class Plant : MonoBehaviour
 		}
 	}
 
-	double GetLeavesEnergy() {
+	double GetLightEnergy() {
 		double energy = 0;
 
 		// Flowers Energy
@@ -133,7 +141,11 @@ public class Plant : MonoBehaviour
 		return energy;
 	}
 
-	List<double> GetLeavesEnergies() {
+	double GetMatterEnergy() {
+		return plantMatter * Mathf.Cos(Time.time);
+	}
+
+	List<double> GetLightEnergies() {
 		List<double> energies = new List<double>();
 
 		// Flowers Energy
@@ -156,5 +168,9 @@ public class Plant : MonoBehaviour
 		inputs++;
 		brain.CreateNetwork(inputs, outputs, layers, neurons);
 		ready = true;
+	}
+
+	public void AddCaseGrid(int amount) {
+		caseGridCount += amount;
 	}
 }
