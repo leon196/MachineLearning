@@ -9,7 +9,7 @@ public class Root : MonoBehaviour
 
 	public GameObject leafPrefab;
 	private List<Leaf> leaves = new List<Leaf>();
-	public List<Leaf> Leaves { get { return leaves;} }
+	public List<Leaf> Leaves { get { return leaves; } }
 	private float leafGrowth = 0.0f;
 
 	private LineRenderer lineRenderer;
@@ -97,7 +97,7 @@ public class Root : MonoBehaviour
 			CreateLeaf();
 			leafGrowth = 0.0f;
 
-			plant.AddCaseGrid(Manager.Instance.GetGrid().CheckGridPosition(nextPosition));
+			plant.AddCaseGrid(Manager.Instance.GetGrid().CheckGridPosition(lastPosition));
 		}
 	}
 }
