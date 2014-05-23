@@ -12,7 +12,7 @@ public class Game : MonoBehaviour {
 	void Start () {
 
 		plants = new List<Plant>();
-		int plantCount = 1;
+		int plantCount = 2;
 
 		// Generate Plants
 		for (int p = 0; p < plantCount; p++) {

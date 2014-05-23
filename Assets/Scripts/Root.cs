@@ -97,7 +97,7 @@ public class Root : MonoBehaviour
 			CreateLeaf();
 			leafGrowth = 0.0f;
 
-			plant.AddCaseGrid(Manager.Instance.GetGrid().CheckGridPosition(lastPosition));
+			plant.AddCaseGrid(Manager.Instance.GetGrid().CheckGridPosition(lastPosition, plant.plantColor));
 		}
 	}
 }

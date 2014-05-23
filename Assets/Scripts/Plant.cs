@@ -37,10 +37,14 @@ public class Plant : MonoBehaviour
 
 	private int caseGridCount = 0;
 
+	public Color plantColor;
+
 	public void GeneratePlant(int flowerCount, int[] rootCount, bool simpleInput_)
 	{
 		ready = false;
 		caseGridCount = 0;
+
+		plantColor = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1.0f);
 
 		simpleInput = simpleInput_;
 		if (simpleInput) inputs = 2; // Total Leaf + Matter
@@ -55,9 +59,12 @@ public class Plant : MonoBehaviour
 			// Generate Flower
 			GameObject flowerObject = Instantiate(flowerPrefab) as GameObject;
 			flowerObject.transform.parent = transform;
-			float range = 4.0f;
+			float range = 2.0f;
 			flowerObject.transform.localPosition = new Vector3(Random.Range(-range, range), Random.Range(-range, range), 0);
 			flowers.Add(flowerObject.GetComponent<Flower>());
+
+			// Colorize
+			flowerObject.renderer.material.color = plantColor;
 
 			// add flower inputs (one per flower for now)
 			if (!simpleInput) inputs += 1;
@@ -182,6 +189,5 @@ public class Plant : MonoBehaviour
 
 	public void AddCaseGrid(int amount) {
 		caseGridCount += amount;
-		Debug.Log("Case Number : " + caseGridCount);
 	}
 }
