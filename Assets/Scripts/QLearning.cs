@@ -8,8 +8,20 @@ namespace QLearningFramework
 {  
 	class QLearning
 	{
+
+		// State Names
+		public enum StateNameEnum
+		{
+			NearSun,	
+			FarSun,
+			NearFlower,
+			FarFlower,
+			NearLeaf,
+			FarLeaf
+		}
+
 		public List<QState> States { get; private set; }
-		public Dictionary<string, QState> StateLookup { get; private set; }
+		public Dictionary<string, QState> StateDico { get; private set; }
 		
 		public double Alpha { get; internal set; }
 		public double Gamma { get; internal set; }
@@ -22,7 +34,7 @@ namespace QLearningFramework
 		public QLearning()
 		{
 			States = new List<QState>();
-			StateLookup = new Dictionary<string, QState>();
+			StateDico = new Dictionary<string, QState>();
 			EndStates = new HashSet<string>();
 			
 			// Default when not set
@@ -42,7 +54,7 @@ namespace QLearningFramework
 		{
 			QMethod.Validate(this);
 			
-			/*       
+			/*   For presentation :    
             For each episode: Select random initial state 
             Do while not reach goal state
                 Select one among all possible actions for the current state 
@@ -99,26 +111,25 @@ namespace QLearningFramework
 					double value = q + Alpha * (r + Gamma * maxQ - q); // q-learning                  
 					nextStateResult.QValue = value; // update
 					
-					// is end state go to next episode
+					// if end state go to next episode
 					if (EndStates.Contains(nextStateResult.StateName))
 						break;
 					
 					// Set the next state as the current state                    
-					state = StateLookup[nextStateResult.StateName];
+					state = StateDico[nextStateResult.StateName];
 					
 				} while (true);
 			}
 		}
-		
-		
+
 		double MaxQ(string stateName)
 		{
 			const double defaultValue = 0;
-			
-			if(!StateLookup.ContainsKey(stateName))            
+			//If dico doesn't contain this state return default value
+			if(!StateDico.ContainsKey(stateName))            
 				return defaultValue;                            
 			
-			QState state = StateLookup[stateName];
+			QState state = StateDico[stateName];
 			var actionsFromState = state.Actions;
 			double? maxValue = null;
 			foreach (var nextState in actionsFromState)
@@ -191,7 +202,7 @@ namespace QLearningFramework
 		
 		public QState(string stateName, QLearning q)
 		{            
-			q.StateLookup.Add(stateName, this);
+			q.StateDico.Add(stateName, this);
 			StateName = stateName;
 			Actions = new List<QAction>();
 		}
