@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class ResourceGenerator : MonoBehaviour {
 
+	public GameObject capturedPrefab;
 	public GameObject lightPrefab;
 	private GameObject grid;
 	private List<ResourceLight> lights;
@@ -75,10 +76,15 @@ public class ResourceGenerator : MonoBehaviour {
 		return distance;
 	}
 
-	public int CheckGridPosition(Vector3 target) {
-		int index = (int)Mathf.Floor(target.x / lightScale + target.y / lightScale * gridDimension);
+	public int CheckGridPosition(Vector3 target, Color caseColor) {
+		int index = (int)(Mathf.Round(target.x / lightScale + GetHalf() / lightScale)) + (int)(Mathf.Round(target.y / lightScale + GetHalf() / lightScale) * gridDimension);
 		if (index >= 0 && index < gridDimension * gridDimension -1 && !gridCaptured[index]) {
 			gridCaptured[index] = true;
+			GameObject caseCaptured = Instantiate(capturedPrefab) as GameObject;
+			caseCaptured.transform.position = new Vector3((index % gridDimension) * lightScale - GetHalf(), Mathf.Floor(index/gridDimension) * lightScale - GetHalf(), 0);
+			caseCaptured.transform.parent = grid.transform;
+			caseCaptured.renderer.material.SetColor("_Color", new Color(caseColor.r, caseColor.g, caseColor.b, 0.3f));
+			caseCaptured.renderer.material.SetColor("_Emission", caseColor);
 			return 1;
 		} else {
 			return 0;
