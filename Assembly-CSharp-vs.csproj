@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\ResourceGenerator.cs" />
      <Compile Include="Assets\Scripts\ResourceLight.cs" />
      <Compile Include="Assets\Scripts\Root.cs" />
+     <Compile Include="Assets\Scripts\testQLearning.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
