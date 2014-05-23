@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Plant : MonoBehaviour
 {
+    // attributs utilisés et modifiés par l'algorithme génétique, sous forme de séquences de bits
+    public List<short[]> attributes;
 
 	// Need to be algo genetic generated
 	private float genParamRootGrowth = 2.0f;
