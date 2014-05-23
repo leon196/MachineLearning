@@ -35,7 +35,9 @@ public class Root : MonoBehaviour
 		leaves = (GetComponentsInChildren<Leaf>() as Leaf[]).ToList<Leaf>();
 
 		// Update Brain
-		//plant.AddBrainInput();
+		if (!plant.SimpleInput) {
+			plant.AddBrainInput();
+		}
 	}
 
 	public void Setup()

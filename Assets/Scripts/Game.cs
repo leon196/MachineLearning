@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Game : MonoBehaviour {
 
+	public bool SimpleInputMode = false;
 	public GameObject plantPrefab;
 	private List<Plant> plants;
 
@@ -29,10 +30,9 @@ public class Game : MonoBehaviour {
 			plantObject.transform.position = p == 0 ? new Vector3(-range, -range, 0.0f) : new Vector3(range, range, 0.0f);
 
 			Plant plant = plantObject.GetComponent<Plant>();
-			plant.GeneratePlant(flowerCount, rootCount);
+			plant.GeneratePlant(flowerCount, rootCount, SimpleInputMode);
 			plants.Add(plant);
 		}
-
 
 	}
 	

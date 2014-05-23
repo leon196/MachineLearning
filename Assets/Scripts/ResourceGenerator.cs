@@ -57,6 +57,17 @@ public class ResourceGenerator : MonoBehaviour {
 		return intensity;
 	}
 
+	public float GetMinDistanceBetweenRootAndLight(Vector3 target) {
+		float distance = 0.0f;
+		foreach (ResourceLight light in lights) {
+			float dist = Vector3.Distance(light.transform.position, target);
+			if (dist < distance) {
+				distance = dist;
+			}
+		}
+		return distance;
+	}
+
 	public int CheckGridPosition(Vector3 target) {
 		return 0;
 		//new Vector3((randomIndex % gridDimension) * lightScale, Mathf.Floor(randomIndex/gridDimension) * lightScale, 0);

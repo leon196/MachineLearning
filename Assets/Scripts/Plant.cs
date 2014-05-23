@@ -23,6 +23,8 @@ public class Plant : MonoBehaviour
 	private List<Root> roots;
 
 	// Neural Network
+	private bool simpleInput = false;
+	public bool SimpleInput { get { return simpleInput; } }
 	private NeuralNet brain;
 	private int inputs = 2;
 	private int outputs = 0;
@@ -35,17 +37,20 @@ public class Plant : MonoBehaviour
 
 	private int caseGridCount = 0;
 
-	public void GeneratePlant(int flowerCount, int[] rootCount)
+	public void GeneratePlant(int flowerCount, int[] rootCount, bool simpleInput_)
 	{
 		ready = false;
 		caseGridCount = 0;
+
+		simpleInput = simpleInput_;
+		if (simpleInput) inputs = 2; // Total Leaf + Matter
+		else inputs = 1; // Matter + (leaves)
 
 		flowers = new List<Flower>();
 		roots = new List<Root>();
 
 		Vector3 plantPosition = new Vector3();
 		for (int d = 0; d < flowerCount; d++) {
-
 
 			// Generate Flower
 			GameObject flowerObject = Instantiate(flowerPrefab) as GameObject;
@@ -55,7 +60,7 @@ public class Plant : MonoBehaviour
 			flowers.Add(flowerObject.GetComponent<Flower>());
 
 			// add flower inputs (one per flower for now)
-			//inputs += 1;
+			if (!simpleInput) inputs += 1;
 
 			// Generate Roots
 			for (int r = 0; r < rootCount[d]; r++) {
@@ -96,10 +101,15 @@ public class Plant : MonoBehaviour
 		if (ready) {
 
 			// Get Inputs
-			//List<double> inputs = GetLightEnergies();
-			List<double> inputs = new List<double>();
-			inputs.Add(GetLightEnergy());
-			inputs.Add(GetMatterEnergy());
+			List<double> inputs;
+			if (!simpleInput) {
+				inputs = GetLightEnergies();
+				inputs.Add(GetMatterEnergy()); 
+			} else {
+				inputs = new List<double>();
+				inputs.Add(GetLightEnergy());
+				inputs.Add(GetMatterEnergy()); 
+			}
 
 			// Get Outputs
 			List<double> ouputs = brain.Update(inputs);
