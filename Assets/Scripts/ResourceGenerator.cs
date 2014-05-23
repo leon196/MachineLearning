@@ -10,6 +10,8 @@ public class ResourceGenerator : MonoBehaviour {
 	private int gridDimension = 9;
 	private float lightScale = 2.0f;
 
+	private bool[] gridCaptured;
+
 	private float minDistanceBetweenLightAndLeaf = 1.0f;
 
 	// Use this for initialization
@@ -18,6 +20,11 @@ public class ResourceGenerator : MonoBehaviour {
 		grid = new GameObject();
 		grid.transform.parent = transform;
 		grid.name = "Grid";
+
+		gridCaptured = new bool[gridDimension*gridDimension];
+		for (int c = 0; c < gridDimension*gridDimension; c++) {
+			gridCaptured[c] = false;
+		}
 
 		// ResourceLights
 		lights = new List<ResourceLight>();
@@ -69,7 +76,12 @@ public class ResourceGenerator : MonoBehaviour {
 	}
 
 	public int CheckGridPosition(Vector3 target) {
-		return 0;
-		//new Vector3((randomIndex % gridDimension) * lightScale, Mathf.Floor(randomIndex/gridDimension) * lightScale, 0);
+		int index = (int)Mathf.Floor(target.x / lightScale + target.y / lightScale * gridDimension);
+		if (index >= 0 && index < gridDimension * gridDimension -1 && !gridCaptured[index]) {
+			gridCaptured[index] = true;
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 }

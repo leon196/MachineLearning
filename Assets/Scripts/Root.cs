@@ -66,7 +66,7 @@ public class Root : MonoBehaviour
 		Vector3 rotation = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
 		Vector3 nextPosition = lastPosition + (float)factorTranslation * rotation * Time.deltaTime;
 
-		if (nextPosition.x < -halfGrid || nextPosition.x > halfGrid || nextPosition.y < -halfGrid || nextPosition.y > halfGrid) {
+		if (polarity > 0 && (nextPosition.x < -halfGrid || nextPosition.x > halfGrid || nextPosition.y < -halfGrid || nextPosition.y > halfGrid)) {
 			//angle += Mathf.PI;
 			//rotation = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
 			//nextPosition = lastPosition + (float)factorTranslation * rotation * Time.deltaTime;
@@ -74,8 +74,8 @@ public class Root : MonoBehaviour
 		}
 
 		// Clamp screen borders
-		float offset = 1.0f;
-		nextPosition = new Vector3(Mathf.Max(-halfGrid+offset, Mathf.Min(nextPosition.x, halfGrid-offset)), Mathf.Max(-halfGrid+offset, Mathf.Min(nextPosition.y, halfGrid-offset)), 0);
+		//float offset = 1.0f;
+		//nextPosition = new Vector3(Mathf.Max(-halfGrid+offset, Mathf.Min(nextPosition.x, halfGrid-offset)), Mathf.Max(-halfGrid+offset, Mathf.Min(nextPosition.y, halfGrid-offset)), 0);
 		
 		linePositions[lineCount] = nextPosition;
 		lastPosition = nextPosition;

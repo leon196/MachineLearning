@@ -182,5 +182,6 @@ public class Plant : MonoBehaviour
 
 	public void AddCaseGrid(int amount) {
 		caseGridCount += amount;
+		Debug.Log("Case Number : " + caseGridCount);
 	}
 }
