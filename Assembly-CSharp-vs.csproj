@@ -49,13 +49,15 @@
      <Compile Include="Assets\Scripts\Flower.cs" />
      <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\GeneticGenerator.cs" />
-     <Compile Include="Assets\Scripts\GridGeneration.cs" />
      <Compile Include="Assets\Scripts\Leaf.cs" />
+     <Compile Include="Assets\Scripts\Manager.cs" />
      <Compile Include="Assets\Scripts\NeuralNet.cs" />
      <Compile Include="Assets\Scripts\Neuron.cs" />
      <Compile Include="Assets\Scripts\NeuronLayer.cs" />
      <Compile Include="Assets\Scripts\Plant.cs" />
      <Compile Include="Assets\Scripts\ReinforcementLearning.cs" />
+     <Compile Include="Assets\Scripts\ResourceGenerator.cs" />
+     <Compile Include="Assets\Scripts\ResourceLight.cs" />
      <Compile Include="Assets\Scripts\Root.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
